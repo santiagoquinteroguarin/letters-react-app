@@ -1,11 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import Form from './components/Form';
 import axios from 'axios';
+import Song from './components/Song';
 
 function App() {
 
   const [searchLetter, setSavedSearchLetter] = useState({});
   const [letter, setSavedLetter] = useState('');
+  const [info, setSavedInfo] = useState({});
 
   useEffect(() => {
     // validar si el objeto esta vacio
@@ -14,11 +16,17 @@ function App() {
     const queryApiLetter =async () => {
       const {artist, song} = searchLetter;
       const url = `https://api.lyrics.ovh/v1/${artist}/${song}`;
-      const response = await axios.get(url);
+      const url2 = `theaudiodb.com/api/v1/json/1/search.php?s=${artist}`;
+      
+      const [letter, dataArtist] = await Promise.all([
+        axios(url),
+        axios(url2),
+      ]);
 
-      setSavedLetter(response.data.lyrics);
+      setSavedLetter(letter.data.lyrics);
+      setSavedInfo(dataArtist.data.artist[0]);
     }
-    queryAPI();
+    queryApiLetter();
   },[searchLetter])
 
   return (
@@ -26,6 +34,19 @@ function App() {
       <Form
         setSavedSearchLetter={setSavedSearchLetter}
       />
+
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-md-6">
+
+          </div>
+          <div className="col-md-6">
+            <Song
+              letter={letter}
+            />
+          </div>
+        </div>
+      </div>
     </Fragment>
   );
 }
