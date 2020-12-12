@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import Form from './components/Form';
 
 function App() {
   return (
-    <h1>Hola Mundo</h1>
+    <Fragment>
+      <Form
+        
+      />
+    </Fragment>
   );
 }
 
