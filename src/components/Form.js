@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Form = () => {
+const Form = ({setSavedSearchLetter}) => {
 
     const [search, setSavedSearch] = useState({
         artist: '',
@@ -28,10 +28,12 @@ const Form = () => {
         setSavedError(false);
 
         // pasar al main component
+        setSavedSearchLetter(search);
     }
 
     return (
         <div className="bg-info">
+            {error ? <p className="alert alert-danger text-center p-2">Todos los campos son obligatorios</p> : null}
             <div className="container">
                 <div className="row">
                     <form
